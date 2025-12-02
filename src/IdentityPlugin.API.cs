@@ -45,7 +45,7 @@ public partial class IdentityPlugin
         catch (Exception error)
         {
             Core.Logger.LogError(
-                "Unable to fetch user (id: {Id}): {Message}",
+                "Failed to fetch user (id: {Id}): {Message}",
                 steamId,
                 error.Message
             );

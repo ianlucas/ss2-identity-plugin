@@ -33,15 +33,14 @@ public partial class IdentityPlugin : BasePlugin
         IsForceNickname = core.ConVar.Create("identity_force_nickname", "Whether to force player nickname.",                        true);
         IsForceRating   = core.ConVar.Create("identity_force_rating",   "Whether to force player rating.",                          true);
         // csharpier-ignore-end
-
-        core.Event.OnTick += OnTick;
-
-        core.GameEvent.HookPre<EventPlayerConnect>(OnPlayerConnect);
-        core.GameEvent.HookPre<EventPlayerConnectFull>(OnPlayerConnectFull);
-        core.GameEvent.HookPre<EventPlayerDisconnect>(OnPlayerDisconnect);
     }
 
-    public override void Load(bool hotReload) { }
+    public override void Load(bool hotReload)
+    {
+        Core.Event.OnTick += OnTick;
+        Core.Event.OnClientSteamAuthorize += OnClientSteamAuthorize;
+        Core.GameEvent.HookPre<EventPlayerDisconnect>(OnPlayerDisconnect);
+    }
 
     public override void Unload() { }
 }

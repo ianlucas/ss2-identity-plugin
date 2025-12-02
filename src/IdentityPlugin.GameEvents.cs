@@ -10,18 +10,6 @@ namespace IdentityPlugin;
 
 public partial class IdentityPlugin
 {
-    public HookResult OnPlayerConnect(EventPlayerConnect @event)
-    {
-        HandleConnectingPlayer(@event.UserIdPlayer);
-        return HookResult.Continue;
-    }
-
-    public HookResult OnPlayerConnectFull(EventPlayerConnectFull @event)
-    {
-        HandleConnectingPlayer(@event.UserIdPlayer);
-        return HookResult.Continue;
-    }
-
     public HookResult OnPlayerDisconnect(EventPlayerDisconnect @event)
     {
         HandleDisconnectingPlayer(@event.UserIdPlayer);

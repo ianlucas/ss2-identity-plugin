@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+using SwiftlyS2.Shared.Events;
+
 namespace IdentityPlugin;
 
 public partial class IdentityPlugin
@@ -13,5 +15,12 @@ public partial class IdentityPlugin
         if (gameRules == null)
             return;
         HandleTick(gameRules);
+    }
+
+    public void OnClientSteamAuthorize(IOnClientSteamAuthorizeEvent @event)
+    {
+        var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
+        if (player != null)
+            HandleConnectingPlayer(player);
     }
 }
