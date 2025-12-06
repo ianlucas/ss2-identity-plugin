@@ -1,9 +1,8 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "*.*.*"
+  release:
+    types: [published]
 
 env:
   project_name: IdentityPlugin
@@ -19,7 +18,7 @@ jobs:
 
       - name: Update module version
         run: |
-          sed -i 's/Version = "1.0.0"/Version = "${{ github.ref_name }}"/g' src/${{ env.project_name }}.cs
+          sed -i 's/Version = "1.0.0"/Version = "${{ github.event.release.tag_name }}"/g' src/${{ env.project_name }}.cs
 
       - name: Set up .NET 10
         uses: actions/setup-dotnet@v5
@@ -34,13 +33,10 @@ jobs:
 
       - name: Move release zip
         run: |
-          mv build/${{ env.project_name }}.zip ${{ env.project_name }}-v${{ github.ref_name }}.zip
+          mv build/${{ env.project_name }}.zip ${{ env.project_name }}-v${{ github.event.release.tag_name }}.zip
 
-      - name: Release
-        id: release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: v${{ github.ref_name }}
-          generate_release_notes: true
-          files: |
-            ${{ env.project_name }}-v${{ github.ref_name }}.zip
+      - name: Upload release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} ${{ env.project_name }}-v${{ github.event.release.tag_name }}.zip
