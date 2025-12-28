@@ -28,7 +28,7 @@ public partial class IdentityPlugin
             return;
         Core.Logger.LogInformation("Player {Name} (id: {Id}) is authenticating...", name, steamId);
         UserInFetchManager.TryAdd(steamId, true);
-        var user = await FetchUser(steamId);
+        var user = await Api.FetchUser(steamId);
         UserInFetchManager.Remove(steamId, out _);
         Core.Scheduler.NextWorldUpdate(() =>
         {
