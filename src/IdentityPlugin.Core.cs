@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.ProtobufDefinitions;
-using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace IdentityPlugin;
 
@@ -31,7 +30,6 @@ public partial class IdentityPlugin
         UserInFetchManager.TryAdd(steamId, true);
         var user = await FetchUser(steamId);
         UserInFetchManager.Remove(steamId, out _);
-        Core.Logger.LogInformation("Player {Name} (id: {Id}) is authenticated.", name, steamId);
         Core.Scheduler.NextWorldUpdate(() =>
         {
             if (!player.Controller.IsValid)
@@ -53,21 +51,28 @@ public partial class IdentityPlugin
                 return;
             }
             user.Player = player;
-            player.SetName(user.Nickname);
-            player.SetRating(user.Rating);
             UserManager.TryAdd(player.SteamID, user);
-            Core.Logger.LogInformation("Player {Name} has rating {Rating}.", name, user.Rating);
+            if (IsForceNickname.Value)
+                player.Controller.SetName(user.Nickname);
+            if (IsForceRating.Value)
+                player.Controller.SetRating(user.Rating);
             if (user.Flags.Length > 0)
-            {
                 foreach (var flag in user.Flags)
                     Core.Permission.AddPermission(steamId, flag);
-                Core.Logger.LogInformation("Player {Name} has flags {Flags}.", name, user.Flags);
-            }
+            Core.Logger.LogInformation(
+                "Player {Name} (id: {Id}) is authenticated (rating={Rating}, flags={Flags}).",
+                name,
+                steamId,
+                user.Rating,
+                user.Flags
+            );
         });
     }
 
     public void HandleTick()
     {
+        if (!IsForceRating.Value)
+            return;
         var teamIntroPeriod = Core.EntitySystem.GetGameRules()?.TeamIntroPeriod;
         if (teamIntroPeriod == null)
             return;
@@ -78,14 +83,14 @@ public partial class IdentityPlugin
         foreach (var (_, user) in UserManager)
             if (user.Player?.IsValid == true)
                 if (teamIntroPeriod.Value)
-                    user.Player.HideRating();
+                    user.Player.Controller.HideRating();
                 else
-                    user.Player.SetRating(user.Rating);
+                    user.Player.Controller.SetRating(user.Rating);
     }
 
-    public void HandleInputingPlayer(IPlayer player)
+    public void HandlePlayerInput(IPlayer player)
     {
-        if (UserManager.TryGetValue(player.SteamID, out var user))
+        if (IsForceRating.Value && UserManager.TryGetValue(player.SteamID, out var user))
         {
             var pressedButtons = player.PressedButtons;
             var lastPressedButtons = LastPlayerPressedButtons.GetOrAdd(

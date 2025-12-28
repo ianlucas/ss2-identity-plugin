@@ -19,4 +19,14 @@ public partial class IdentityPlugin
         "Whether to kick the player if we fail to get their data.",
         true
     );
+    public readonly IConVar<bool> IsForceNickname = core.ConVar.Create(
+        "identity_force_nickname",
+        "Whether to force player nickname.",
+        true
+    );
+    public readonly IConVar<bool> IsForceRating = core.ConVar.Create(
+        "identity_force_rating",
+        "Whether to force player rating.",
+        true
+    );
 }

@@ -25,6 +25,6 @@ public partial class IdentityPlugin
     {
         var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
         if (player != null && player.IsValid && !player.IsFakeClient)
-            HandleInputingPlayer(player);
+            HandlePlayerInput(player);
     }
 }

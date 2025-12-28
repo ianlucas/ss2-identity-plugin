@@ -4,25 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
-using SwiftlyS2.Shared.Players;
 
 namespace IdentityPlugin;
-
-public class User
-{
-    [JsonPropertyName("nickname")]
-    public required string Nickname { get; set; }
-
-    [JsonPropertyName("rating")]
-    public required int Rating { get; set; }
-
-    [JsonPropertyName("flags")]
-    public required string[] Flags { get; set; }
-
-    public IPlayer? Player;
-}
 
 public partial class IdentityPlugin
 {

@@ -20,6 +20,7 @@ public partial class IdentityPlugin(ISwiftlyCore core) : BasePlugin(core)
 {
     public override void Load(bool hotReload)
     {
+        Natives.Initialize(Core);
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingPatch");
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingCleanupPatch");
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankTypePatch");
@@ -27,6 +28,7 @@ public partial class IdentityPlugin(ISwiftlyCore core) : BasePlugin(core)
         Core.Event.OnClientSteamAuthorize += OnClientSteamAuthorize;
         Core.Event.OnClientProcessUsercmds += OnClientProcessUsercmds;
         Core.GameEvent.HookPre<EventPlayerDisconnect>(OnPlayerDisconnect);
+        Natives.CCSPlayerController_SetPlayerName.AddHook(OnSetPlayerName);
     }
 
     public override void Unload() { }
