@@ -22,12 +22,7 @@ public partial class IdentityPlugin(ISwiftlyCore core) : BasePlugin(core)
     {
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingPatch");
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingCleanupPatch");
-        Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveWinsPatch");
-        Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveWinsCleanupPatch");
         Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankTypePatch");
-        Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingPredicted_WinPatch");
-        Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingPredicted_LossPatch");
-        Core.GameData.ApplyPatch("CCSPlayerController_m_iCompetitiveRankingPredicted_TiePatch");
         Core.Event.OnTick += OnTick;
         Core.Event.OnClientSteamAuthorize += OnClientSteamAuthorize;
         Core.Event.OnClientProcessUsercmds += OnClientProcessUsercmds;
