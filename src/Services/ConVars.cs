@@ -10,44 +10,32 @@ namespace Identity;
 
 public static class ConVars
 {
-    [SwiftlyInject]
-    private static ISwiftlyCore Core
-    {
-        get => _core!;
-        set
-        {
-            _core = value;
-            Initialize();
-        }
-    }
-    private static ISwiftlyCore? _core;
-
     public static IConVar<string> Url { get; private set; } = null!;
     public static IConVar<bool> IsStrict { get; private set; } = null!;
     public static IConVar<bool> IsForceNickname { get; private set; } = null!;
     public static IConVar<bool> IsForceRating { get; private set; } = null!;
 
-    private static void Initialize()
+    public static void Initialize(ISwiftlyCore core)
     {
-        Url = Core.ConVar.Create(
+        Url = core.ConVar.Create(
             "identity_url",
             "URL endpoint for fetching player identity data.",
             ""
         );
 
-        IsStrict = Core.ConVar.Create(
+        IsStrict = core.ConVar.Create(
             "identity_strict",
             "Kick players when their identity data cannot be retrieved.",
             true
         );
 
-        IsForceNickname = Core.ConVar.Create(
+        IsForceNickname = core.ConVar.Create(
             "identity_force_nickname",
             "Override player nicknames with their identity nickname.",
             true
         );
 
-        IsForceRating = Core.ConVar.Create(
+        IsForceRating = core.ConVar.Create(
             "identity_force_rating",
             "Override player ratings with their identity rating.",
             true
