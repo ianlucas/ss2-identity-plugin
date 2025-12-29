@@ -9,30 +9,28 @@ namespace Identity;
 
 public static class CCSPlayerControllerExtensions
 {
-    public static bool SetName(this CCSPlayerController self, string name)
+    extension(CCSPlayerController self)
     {
-        if (self.PlayerName != name)
+        public void SetPlayerName(string name)
         {
+            if (self.PlayerName == name)
+                return;
             self.PlayerName = name;
             self.PlayerNameUpdated();
-            return true;
         }
-        return false;
-    }
 
-    public static void SetRating(this CCSPlayerController self, int rating)
-    {
-        self.CompetitiveRankType = 11;
-        self.CompetitiveRankTypeUpdated();
-        self.CompetitiveRanking = rating;
-        self.CompetitiveRankingUpdated();
-    }
+        public void SetCompetitiveRanking(int rating)
+        {
+            self.CompetitiveRankType = 11;
+            self.CompetitiveRankTypeUpdated();
+            self.CompetitiveRanking = rating;
+            self.CompetitiveRankingUpdated();
+        }
 
-    public static void HideRating(this CCSPlayerController self)
-    {
-        self.CompetitiveRankType = 0;
-        self.CompetitiveRankTypeUpdated();
-        self.CompetitiveRanking = 0;
-        self.CompetitiveRankingUpdated();
+        public void HideCompetitiveRanking()
+        {
+            self.CompetitiveRankType = 0;
+            self.CompetitiveRankTypeUpdated();
+        }
     }
 }

@@ -1,16 +1,16 @@
 {
   "CCSPlayerController::m_iCompetitiveRankingPatch": {
-    "signature": "CCSPlayerController_m_iCompetitiveRankingPatch",
+    "signature": "CCSPlayerController::m_iCompetitiveRankingPatch",
     "linux": "90 90 90 90 90 90 90",
     "windows": "90 90 90 90 90 90 90"
   },
   "CCSPlayerController::m_iCompetitiveRankTypePatch": {
-    "signature": "CCSPlayerController_m_iCompetitiveRankTypePatch",
+    "signature": "CCSPlayerController::m_iCompetitiveRankTypePatch",
     "linux": "90 90 90 90 90 90 90",
     "windows": "90 90 90 90 90 90 90"
   },
   "CCSPlayerController::m_iCompetitiveRankingCleanupPatch": {
-    "signature": "CCSPlayerController_m_iCompetitiveRankingCleanupPatch",
+    "signature": "CCSPlayerController::m_iCompetitiveRankingCleanupPatch",
     "linux": "90 90 90 90 90 90 90 90 90 90",
     "windows": "90 90 90 90 90 90 90"
   }

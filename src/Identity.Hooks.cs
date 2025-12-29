@@ -17,8 +17,12 @@ public partial class Identity
         {
             next()(thisPtr, playerName);
             var controller = Core.Memory.ToSchemaClass<CCSPlayerController>(thisPtr);
-            if (IsForceNickname.Value && UserManager.TryGetValue(controller.SteamID, out var user))
-                controller.SetName(user.Nickname);
+            if (ConVars.IsForceNickname.Value && controller.SteamID != 0)
+            {
+                var nickname = controller.ToPlayer()?.State.Data?.Nickname;
+                if (nickname != null)
+                    controller.SetPlayerName(nickname);
+            }
         };
     }
 }

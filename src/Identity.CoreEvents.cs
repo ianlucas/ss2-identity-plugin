@@ -18,13 +18,13 @@ public partial class Identity
     {
         var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
         if (player != null)
-            HandleConnectingPlayer(player);
+            HandleClientSteamAuthorize(player);
     }
 
     public void OnClientProcessUsercmds(IOnClientProcessUsercmdsEvent @event)
     {
         var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
         if (player != null && player.IsValid && !player.IsFakeClient)
-            HandlePlayerInput(player);
+            HandleClientProcessUsercmds(player);
     }
 }

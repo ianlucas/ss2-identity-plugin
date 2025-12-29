@@ -6,36 +6,25 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared;
-using SwiftlyS2.Shared.Convars;
 
 namespace Identity;
 
-public class Api
+public static class Api
 {
+    [SwiftlyInject]
+    private static ISwiftlyCore Core { get; set; } = null!;
+
+    private static readonly HttpClient _httpClient = new() { Timeout = TimeSpan.FromSeconds(30) };
+
     private const int MaxRetries = 3;
+
     private const int RetryDelayMs = 100;
 
-    private static readonly HttpClient _httpClient = new();
-    private static ILogger? _logger;
-    private static IConVar<string>? _url;
-
-    public static void Initialize(ISwiftlyCore core, IConVar<string> url)
-    {
-        _logger = core.Logger;
-        _url = url;
-        _httpClient.Timeout = TimeSpan.FromSeconds(30);
-    }
-
-    public static string GetUrl(string pathname = "")
-    {
-        if (_url == null)
-            throw new InvalidOperationException("API not initialized. Call Initialize() first.");
-        return $"{_url.Value}{pathname}";
-    }
+    public static bool IsActive() => ConVars.Url.Value.Contains("{userId}");
 
     public static async Task<User?> FetchUser(ulong steamId)
     {
-        var url = GetUrl().Replace("{userId}", steamId.ToString());
+        var url = ConVars.Url.Value.Replace("{userId}", steamId.ToString());
         for (var attempt = 1; attempt <= MaxRetries; attempt++)
             try
             {
@@ -46,7 +35,7 @@ public class Api
             }
             catch (Exception error)
             {
-                _logger?.LogError(
+                Core.Logger.LogError(
                     "GET {Url} failed (attempt {Attempt}/{MaxRetries}): {Message}",
                     url,
                     attempt,
