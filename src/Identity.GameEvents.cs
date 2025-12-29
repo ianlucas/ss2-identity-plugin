@@ -10,9 +10,9 @@ namespace Identity;
 
 public partial class Identity
 {
-    public HookResult OnPlayerDisconnect(EventPlayerDisconnect @event)
+    public static HookResult OnPlayerDisconnect(EventPlayerDisconnect @event)
     {
-        HandleDisconnectingPlayer(@event.UserIdPlayer);
+        HandlePlayerDisconnect(@event.UserIdPlayer);
         return HookResult.Continue;
     }
 }

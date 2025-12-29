@@ -3,28 +3,35 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Convars;
 
 namespace Identity;
 
-public partial class Identity
+public static class ConVars
 {
-    public readonly IConVar<string> Url = core.ConVar.Create(
+    [SwiftlyInject]
+    private static ISwiftlyCore Core { get; set; } = null!;
+
+    public static readonly IConVar<string> Url = Core.ConVar.Create(
         "identity_url",
         "URL endpoint for fetching player identity data.",
         ""
     );
-    public readonly IConVar<bool> IsStrict = core.ConVar.Create(
+
+    public static readonly IConVar<bool> IsStrict = Core.ConVar.Create(
         "identity_strict",
         "Kick players when their identity data cannot be retrieved.",
         true
     );
-    public readonly IConVar<bool> IsForceNickname = core.ConVar.Create(
+
+    public static readonly IConVar<bool> IsForceNickname = Core.ConVar.Create(
         "identity_force_nickname",
         "Override player nicknames with their identity nickname.",
         true
     );
-    public readonly IConVar<bool> IsForceRating = core.ConVar.Create(
+
+    public static readonly IConVar<bool> IsForceRating = Core.ConVar.Create(
         "identity_force_rating",
         "Override player ratings with their identity rating.",
         true

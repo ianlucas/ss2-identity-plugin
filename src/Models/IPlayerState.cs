@@ -3,18 +3,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-using System.Text.Json.Serialization;
+using SwiftlyS2.Shared.Events;
 
 namespace Identity;
 
-public class User
+public class IPlayerState
 {
-    [JsonPropertyName("nickname")]
-    public required string Nickname { get; set; }
-
-    [JsonPropertyName("rating")]
-    public required int Rating { get; set; }
-
-    [JsonPropertyName("flags")]
-    public required string[] Flags { get; set; }
+    public bool IsFetching = false;
+    public User? Data;
+    public GameButtonFlags LastPressedButtons = GameButtonFlags.None;
 }

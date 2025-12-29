@@ -20,8 +20,6 @@ public partial class Identity(ISwiftlyCore core) : BasePlugin(core)
 {
     public override void Load(bool hotReload)
     {
-        Natives.Initialize(Core);
-        Api.Initialize(Core, Url);
         Core.GameData.ApplyPatch("CCSPlayerController::m_iCompetitiveRankingPatch");
         Core.GameData.ApplyPatch("CCSPlayerController::m_iCompetitiveRankingCleanupPatch");
         Core.GameData.ApplyPatch("CCSPlayerController::m_iCompetitiveRankTypePatch");
