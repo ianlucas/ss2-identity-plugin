@@ -11,9 +11,6 @@ namespace Identity;
 
 public static class Api
 {
-    [SwiftlyInject]
-    private static ISwiftlyCore Core { get; set; } = null!;
-
     private static readonly HttpClient _httpClient = new() { Timeout = TimeSpan.FromSeconds(30) };
 
     private const int MaxRetries = 3;
@@ -35,7 +32,7 @@ public static class Api
             }
             catch (Exception error)
             {
-                Core.Logger.LogError(
+                Swiftly.Core.Logger.LogError(
                     "GET {Url} failed (attempt {Attempt}/{MaxRetries}): {Message}",
                     url,
                     attempt,

@@ -10,35 +10,32 @@ namespace Identity;
 
 public static class ConVars
 {
-    public static IConVar<string> Url { get; private set; } = null!;
-    public static IConVar<bool> IsStrict { get; private set; } = null!;
-    public static IConVar<bool> IsForceNickname { get; private set; } = null!;
-    public static IConVar<bool> IsForceRating { get; private set; } = null!;
+    public static readonly IConVar<string> Url = Swiftly.Core.ConVar.Create(
+        "identity_url",
+        "URL endpoint for fetching player identity data.",
+        ""
+    );
+    public static readonly IConVar<bool> IsStrict = Swiftly.Core.ConVar.Create(
+        "identity_strict",
+        "Kick players when their identity data cannot be retrieved.",
+        true
+    );
+    public static readonly IConVar<bool> IsForceNickname = Swiftly.Core.ConVar.Create(
+        "identity_force_nickname",
+        "Override player nicknames with their identity nickname.",
+        true
+    );
+    public static readonly IConVar<bool> IsForceRating = Swiftly.Core.ConVar.Create(
+        "identity_force_rating",
+        "Override player ratings with their identity rating.",
+        true
+    );
 
-    public static void Initialize(ISwiftlyCore core)
+    public static void Initialize()
     {
-        Url = core.ConVar.Create(
-            "identity_url",
-            "URL endpoint for fetching player identity data.",
-            ""
-        );
-
-        IsStrict = core.ConVar.Create(
-            "identity_strict",
-            "Kick players when their identity data cannot be retrieved.",
-            true
-        );
-
-        IsForceNickname = core.ConVar.Create(
-            "identity_force_nickname",
-            "Override player nicknames with their identity nickname.",
-            true
-        );
-
-        IsForceRating = core.ConVar.Create(
-            "identity_force_rating",
-            "Override player ratings with their identity rating.",
-            true
-        );
+        _ = Url;
+        _ = IsStrict;
+        _ = IsForceNickname;
+        _ = IsForceRating;
     }
 }

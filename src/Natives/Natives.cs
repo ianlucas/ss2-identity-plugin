@@ -10,17 +10,14 @@ namespace Identity;
 
 public static partial class Natives
 {
-    [SwiftlyInject]
-    private static ISwiftlyCore Core { get; set; } = null!;
-
     private static IUnmanagedFunction<TDelegate> FromSignature<TDelegate>(string signatureName)
         where TDelegate : Delegate
     {
-        nint? address = Core.GameData.GetSignature(signatureName);
+        nint? address = Swiftly.Core.GameData.GetSignature(signatureName);
         if (address is null)
             throw new InvalidOperationException(
                 $"Failed to locate game function signature '{signatureName}'. The function may not exist in the current game version or the signature pattern may be outdated."
             );
-        return Core.Memory.GetUnmanagedFunctionByAddress<TDelegate>(address.Value);
+        return Swiftly.Core.Memory.GetUnmanagedFunctionByAddress<TDelegate>(address.Value);
     }
 }
