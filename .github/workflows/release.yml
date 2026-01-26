@@ -1,8 +1,12 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.0.0)"
+        required: true
+        type: string
 
 env:
   project_name: Identity
@@ -15,10 +19,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Update module version
         run: |
-          sed -i 's/Version = "1.0.0"/Version = "${{ github.event.release.tag_name }}"/g' src/${{ env.project_name }}.cs
+          sed -i 's/Version = "1.0.0"/Version = "${{ inputs.version }}"/g' src/${{ env.project_name }}.cs
 
       - name: Set up .NET 10
         uses: actions/setup-dotnet@v5
@@ -33,10 +39,23 @@ jobs:
 
       - name: Move release zip
         run: |
-          mv build/${{ env.project_name }}.zip ${{ env.project_name }}-v${{ github.event.release.tag_name }}.zip
+          mv build/${{ env.project_name }}.zip ${{ env.project_name }}-v${{ inputs.version }}.zip
 
-      - name: Upload release asset
+      - name: Generate changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            git log --pretty=format:"* %s (%h)" --reverse > changelog.txt
+          else
+            git log ${PREV_TAG}..HEAD --pretty=format:"* %s (%h)" --reverse > changelog.txt
+          fi
+
+      - name: Create draft release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ env.project_name }}-v${{ github.event.release.tag_name }}.zip
+          gh release create ${{ inputs.version }} \
+            --title "v${{ inputs.version }}" \
+            --notes-file changelog.txt \
+            --draft \
+            ${{ env.project_name }}-v${{ inputs.version }}.zip
