@@ -15,8 +15,8 @@ public static class CCSPlayerControllerExtensions
         {
             if (self.PlayerName == name)
                 return;
-            self.PlayerName = name;
-            self.PlayerNameUpdated();
+            // self.PlayerName = name;
+            // self.PlayerNameUpdated();
         }
 
         public void SetCompetitiveRanking(int rating)

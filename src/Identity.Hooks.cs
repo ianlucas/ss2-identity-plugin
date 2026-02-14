@@ -15,7 +15,7 @@ public partial class Identity
     {
         return (thisPtr, playerNamePtr) =>
         {
-            next()(thisPtr, playerNamePtr);
+            next()(thisPtr, playerNamePtr); /*
             var controller = Core.Memory.ToSchemaClass<CCSPlayerController>(thisPtr);
             Core.Scheduler.NextWorldUpdate(() =>
             {
@@ -25,7 +25,7 @@ public partial class Identity
                     if (nickname != null)
                         controller.SetPlayerName(nickname);
                 }
-            });
+            });*/
         };
     }
 }
