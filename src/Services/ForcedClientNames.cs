@@ -7,16 +7,16 @@ namespace Identity;
 
 public static class ForcedClientNames
 {
-    private static ForcedClientNamesManager _forcedNames = null!;
+    private static NativeForcedClientNames _forcedNames = null!;
 
     public static void Initialize()
     {
-        nint? address = Swiftly.Core.GameData.GetSignature("pForcedClientNames");
+        nint? address = Swiftly.Core.GameData.GetSignature("g_ForcedClientNames");
         if (address == null)
             throw new InvalidOperationException(
-                "Failed to locate the address for pForcedClientNames!"
+                "Failed to locate the address for g_ForcedClientNames!"
             );
-        _forcedNames = new(ForcedClientNamesManager.ResolveTreeBase(address.Value));
+        _forcedNames = new(NativeForcedClientNames.ResolveTreeBase(address.Value));
     }
 
     public static bool SetForcedName(uint steamAccountId, string forcedName)

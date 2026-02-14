@@ -31,7 +31,7 @@ namespace Identity;
 ///   +0x14: padding         (uint)
 ///   +0x18: NamePointer     (nint) - pointer to null-terminated ANSI string
 /// </summary>
-public unsafe class ForcedClientNamesManager(nint treeBase) : IDisposable
+public unsafe class NativeForcedClientNames(nint treeBase) : IDisposable
 {
     // Tree field offsets from base.
     private const int TREE_ELEM_COUNT = 0x08;
