@@ -7,7 +7,7 @@ namespace Identity;
 
 public static class ForcedClientNames
 {
-    private static NativeForcedClientNames _forcedNames = null!;
+    private static NativeForcedClientNames _forcedClientNames = null!;
 
     public static void Initialize()
     {
@@ -16,16 +16,16 @@ public static class ForcedClientNames
             throw new InvalidOperationException(
                 "Failed to locate the address for g_ForcedClientNames!"
             );
-        _forcedNames = new(NativeForcedClientNames.ResolveTreeBase(address.Value));
+        _forcedClientNames = new(NativeForcedClientNames.ResolveTreeBase(address.Value));
     }
 
-    public static bool SetForcedName(uint steamAccountId, string forcedName)
+    public static bool Set(uint steamAccountId, string forcedName)
     {
-        return _forcedNames.SetForcedName(steamAccountId, forcedName);
+        return _forcedClientNames.SetForcedName(steamAccountId, forcedName);
     }
 
-    public static bool RemoveForcedName(uint steamAccountId)
+    public static bool Remove(uint steamAccountId)
     {
-        return _forcedNames.RemoveForcedName(steamAccountId);
+        return _forcedClientNames.RemoveForcedName(steamAccountId);
     }
 }

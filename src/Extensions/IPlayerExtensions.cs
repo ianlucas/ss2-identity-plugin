@@ -27,18 +27,13 @@ public static class IPlayerExtensions
 
         public void SetForcedName(string name)
         {
-            ForcedClientNames.SetForcedName(
-                new CSteamID(self.SteamID).GetAccountID().m_AccountID,
-                name
-            );
+            ForcedClientNames.Set(new CSteamID(self.SteamID).GetAccountID().m_AccountID, name);
             self.Controller.SetPlayerName(name);
         }
 
         public void RemoveForcedName()
         {
-            ForcedClientNames.RemoveForcedName(
-                new CSteamID(self.SteamID).GetAccountID().m_AccountID
-            );
+            ForcedClientNames.Remove(new CSteamID(self.SteamID).GetAccountID().m_AccountID);
         }
     }
 }

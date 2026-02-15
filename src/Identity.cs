@@ -6,7 +6,6 @@
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.GameEventDefinitions;
 using SwiftlyS2.Shared.Plugins;
-using SwiftlyS2.Shared.SteamAPI;
 
 namespace Identity;
 
