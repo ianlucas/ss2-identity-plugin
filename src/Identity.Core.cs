@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.ProtobufDefinitions;
+using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace Identity;
 
@@ -14,17 +15,6 @@ public partial class Identity
 {
     public void HandleTick()
     {
-        var players =
-            ConVars.IsForceNickname.Value && Swiftly.Core.Engine.GlobalVars.TickCount % 64 == 0
-                ? Core.PlayerManager.GetAllPlayers()
-                : null;
-        if (players != null)
-            foreach (var player in players)
-            {
-                var nickname = player.GetState().Data?.Nickname;
-                if (nickname != null)
-                    player.Controller.SetPlayerName(nickname);
-            }
         if (!ConVars.IsForceRating.Value)
             return;
         var gameRules = Core.EntitySystem.GetGameRules();
@@ -35,7 +25,7 @@ public partial class Identity
         gameRules.LastTeamIntroPeriod = teamIntroPeriod;
         if (!isUpdateRating)
             return;
-        players ??= Core.PlayerManager.GetAllPlayers();
+        var players = Core.PlayerManager.GetAllPlayers();
         foreach (var player in players)
             if (!player.IsFakeClient)
             {
@@ -97,6 +87,15 @@ public partial class Identity
                 user.Flags
             );
         });
+    }
+
+    public void HandleClientPlayerNameChange(CCSPlayerController controller)
+    {
+        if (controller.SteamID == 0)
+            return;
+        var nickname = controller.ToPlayer()?.GetState().Data?.Nickname;
+        if (nickname != null)
+            controller.SetPlayerName(nickname);
     }
 
     public void HandleClientProcessUsercmds(IPlayer player)
