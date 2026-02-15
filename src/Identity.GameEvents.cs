@@ -12,7 +12,9 @@ public partial class Identity
 {
     public static HookResult OnPlayerDisconnect(EventPlayerDisconnect @event)
     {
-        HandlePlayerDisconnect(@event.UserIdPlayer);
+        var player = @event.UserIdPlayer;
+        if (player != null)
+            HandlePlayerDisconnect(player);
         return HookResult.Continue;
     }
 }
