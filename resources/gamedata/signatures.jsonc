@@ -22,6 +22,6 @@
   "g_ForcedClientNames": {
     "lib": "server",
     "linux": "4C 8D 2D ? ? ? ? 4C 89 EF E8 ? ? ? ? 4C 8B 25",
-    "windows": "48 83 EC ? 48 85 D2 74 ? 48 89 5C 24"
+    "windows": "48 8D 0D ? ? ? ? 4D 0F 44 D6"
   }
 }
