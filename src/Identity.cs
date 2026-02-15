@@ -29,6 +29,10 @@ public partial class Identity(ISwiftlyCore core) : BasePlugin(core)
         Core.Event.OnClientSteamAuthorize += OnClientSteamAuthorize;
         Core.Event.OnClientProcessUsercmds += OnClientProcessUsercmds;
         Core.GameEvent.HookPre<EventPlayerDisconnect>(OnPlayerDisconnect);
+        Natives.CCSPlayerController_m_iszPlayerName1.AddHook(OnSetPlayerName1);
+        Natives.CCSPlayerController_m_iszPlayerName2.AddHook(OnSetPlayerName2);
+        Natives.CCSPlayerController_m_iszPlayerName3.AddHook(OnSetPlayerName3);
+        Natives.CCSPlayerController_m_iszPlayerName4.AddHook(OnSetPlayerName4);
     }
 
     public override void Unload() { }
